@@ -1,5 +1,6 @@
 const{DeliverTable}=require('../entity/DeliverTable')
-
+const{MaterialTable}=require('../entity/MaterialTable')
+const {StockTable}=require('../entity/Stock')
 const getALL = async (req,res)=>{
     let MaterialData= await DeliverTable.find();
     if(!MaterialData) return res.status(200).send({success:'false',errormessage:"error occurred"});
@@ -16,6 +17,13 @@ const getALL = async (req,res)=>{
         description:req.body.description,
         vasselname:req.body.vasselname })
        await AddMaterial.save()
+       let stockData= await StockTable.findOne({materialname:req.body.materialname});
+       console.log("stockdata",stockData)
+       let quantity=stockData.stock-req.body.quantity
+      console.log("quanity",quantity)
+    
+        await StockTable.findOneAndUpdate({materialname:req.body.materialname},{stock:quantity})
+       
             res.status(200).send({
                 status:'true',
                 success:'true',
