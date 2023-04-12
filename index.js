@@ -12,6 +12,10 @@ const router=require('./src/router/MaterailIndex')
 INVE_Saver.use(router);
 const DelRoute=require('./src/router/DelIndex')
 INVE_Saver.use(DelRoute)
+const Stock=require("./src/router/StockIndex")
+INVE_Saver.use(Stock)
+const authuser=require("./src/router/AuthIndex")
+INVE_Saver.use(authuser)
 //DBConnention
 mongoose.connect(process.env.mongoDB_URL).then(() => {
     console.log('connected to db');

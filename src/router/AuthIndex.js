@@ -1,6 +1,8 @@
-const express = require('express')
+const express = require('express');
 const INVE_Saver=express();
-const ROUTE=require('./StockRouter')
+
+const ROUTE = require('./AuthRouter')
+
 INVE_Saver.use('/api',ROUTE)
 
 module.exports=INVE_Saver;
