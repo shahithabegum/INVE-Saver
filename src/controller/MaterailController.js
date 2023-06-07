@@ -1,6 +1,6 @@
 const{MaterialTable}=require('../entity/MaterialTable')
 const {StockTable}=require('../entity/Stock')
-const {DeliverTable}=require("../entity/DeliverTable")
+const {DeliverTable}=require("../entity/DeliverTable");
 const getALL = async (req,res)=>{
     let MaterialData= await MaterialTable.find();
     if(!MaterialData) return res.status(200).send({success:'false',errormessage:"error occurred"});
@@ -74,10 +74,12 @@ const deleteMat = async (req,res)=>{
     let deleted = await MaterialTable.findOneAndDelete(req.params._id)
     deleted ? res.status(200).send({success:'true',errormessage:'false',result:deleted}) :  res.status(400).send({success:false,message:"eroor"})
 }
+
 module.exports={
     getALL,
     CreateMat,
     getbyId,
     UpdateMAT,
-    deleteMat
+    deleteMat,
+    
 }

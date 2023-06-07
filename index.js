@@ -1,12 +1,12 @@
 const express =require('express')
 const mongoose=require('mongoose');
 const bodyparser=require('body-parser');
-
+const cors = require('cors')
 require('dotenv').config();
 
 const INVE_Saver=express();
 INVE_Saver.use(bodyparser.json());
-
+INVE_Saver.use(cors())
 console.log("hai shaju im fine")
 const router=require('./src/router/MaterailIndex')
 INVE_Saver.use(router);

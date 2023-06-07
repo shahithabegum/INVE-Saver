@@ -3,7 +3,7 @@ const express = require('express');
 
  const {getALL,CreateMat,getbyId,UpdateMAT,deleteMat}=require('../controller/MaterailController')
 
- MaterialRouter.get("/",getALL)
+ MaterialRouter.get("/getall",getALL)
  MaterialRouter.get("/byId/:_id",getbyId)
  MaterialRouter.post("/addMaterial",CreateMat)
  MaterialRouter.put("/updateMaterial/:_id",UpdateMAT)
