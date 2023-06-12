@@ -38,7 +38,7 @@ const getALL = async (req,res)=>{
         })
         await Stock.save()
        }
-       console.log("md",MaterialData)
+    //    console.log("md",MaterialData)
 
             res.status(200).send({
                 status:'true',
@@ -58,21 +58,61 @@ const getALL = async (req,res)=>{
  }
 
  const UpdateMAT =async (req,res)=>{
-   
-        let UpdatedMat= await MaterialTable.findOneAndUpdate(req.params._id,req.body).then(function(dataobj){
-            MaterialTable.findOne(req.params.id).then(function(dataobj){
-                res.status(201).send({success:'true',errormessage:'false',result:dataobj})
-            })
-        }).catch(err =>{
-            res.status(200).send({success:false,
-                errormessage:'update failure',result:{}})
-          
-        })
+        var d=await MaterialTable.findById(req.params._id)
+     
+                
+           
+       let UpdatedMat= await MaterialTable.findByIdAndUpdate(req.params._id,req.body,{new:true});
+    
+        UpdatedMat ? res.status(201).send({success:'true',errormessage:'false',result:UpdatedMat}):res.status(200).send({success:false,
+                    errormessage:'update failure',result:{}})
+       
+                 let s=   await StockTable.findOne({materialname:req.body.materialname}).then()
+                 let change = s.stock
+                 console.log("change",change)
+                 const perivousvalue=d.quantity;
+                 console.log("previousvalue",perivousvalue)
+                 let curenrvalue=UpdatedMat.quantity;
+                 console.log("current",curenrvalue)
+                 
+                
+                 if(perivousvalue <= curenrvalue){
+                    let expr=curenrvalue-perivousvalue;
+                    change=change+expr;
+                    console.log("expr",expr)
+                    console.log("change",change)
+                    let su= await StockTable.findOneAndUpdate({materialname:req.body.materialname},{stock:change})
+                 }
+                 else{
+                    let expr=perivousvalue-curenrvalue;
+                    change=change-expr;
+                    console.log(change)
+                    let su= await StockTable.findOneAndUpdate({materialname:req.body.materialname},{stock:change})
+                 }
+
         }
             
 const deleteMat = async (req,res)=>{
     let deleted = await MaterialTable.findOneAndDelete(req.params._id)
     deleted ? res.status(200).send({success:'true',errormessage:'false',result:deleted}) :  res.status(400).send({success:false,message:"eroor"})
+    let name=deleted.materialname
+    let deletedQuantity=deleted.quantity;
+  
+    let s = await StockTable.findOne({materialname:name})
+    let perivousvalue=s.stock;
+    
+    let material= await MaterialTable.find({materialname:name});
+    
+   
+    if(material.length>=1){
+        let change=perivousvalue-deletedQuantity
+       
+        await StockTable.findOneAndUpdate({materialname:name},{stock:change})
+    }
+    else{
+        await StockTable.findOneAndDelete({materialname:name})
+       
+    }
 }
 
 module.exports={
