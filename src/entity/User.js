@@ -12,16 +12,28 @@ new mongoose.Schema({
         required:true,
         unique:true
     },
+    phoneno:{
+        type:String,
+        required:true,
+    },
+    employeeid:{
+        type:String,
+        required:true
+    },
+    oldpassword:{
+        type:String,
+    },
     password:{
         type:String,
         required:true
        
     },
-    // profilePic:{
-    //     type:String,
-    //     default:""
-    // }
-}
+    token:{
+        type:String,
+        default:""
+    }
+},
+{timestamps:true}
 ))
 
 module.exports=User;

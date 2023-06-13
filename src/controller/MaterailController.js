@@ -1,14 +1,15 @@
 const{MaterialTable}=require('../entity/MaterialTable')
 const {StockTable}=require('../entity/Stock')
 const {DeliverTable}=require("../entity/DeliverTable");
+const {User}=require("../entity/User")
+
 const getALL = async (req,res)=>{
     let MaterialData= await MaterialTable.find();
     if(!MaterialData) return res.status(200).send({success:'false',errormessage:"error occurred"});
     return res.status(200).send({success:'true',errormessage:'false',result:MaterialData});
 }
  const CreateMat =async (req,res)=>{
-
-   // console.log("trequest",req.body)
+  
     let AddMaterial= new MaterialTable({
         materialname:req.body.materialname,
         month:req.body.month,
