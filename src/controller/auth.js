@@ -13,7 +13,8 @@ const registration = async (req,res)=>{
             email:req.body.email,
             password:hashpass,
             employeeid:req.body.employeeid,
-            phoneno:req.body.phoneno
+            phoneno:req.body.phoneno,
+            role:req.body.role
         })
         await newUser.save();
         newUser ?   res.status(201).send({success:'true',errormessage:'false',result:newUser}) :
@@ -97,7 +98,7 @@ const changePassword = async (req,res)=>{
             console.log(info.response)
         }
      })
-   }
+   } 
     const forgetPassword = async (req,res)=>{
          const UserData = await User.findOne({email:req.body.email})
          if(UserData){
